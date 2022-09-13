@@ -1,8 +1,8 @@
 import { Box, Text, Flex, Heading } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getAthleteAverageTime } from "../lib/athleteLibs";
-import { getPredictionData } from "../lib/meetLibs";
+import { getAthleteAverageTime, getAthleteTime } from "../lib/athleteLibs";
+import { getPredictionData, getPredictionMeetData } from "../lib/meetLibs";
 import prevMeetIds from "../lib/prevMeetIds";
 import { buildModel } from "../lib/regressionLibs";
 import { secondsToReadable } from "../lib/timeLibs";
@@ -49,13 +49,20 @@ function PerformanceCard(props) {
                     // console.log("avg time used for prediction is: ", avgTime);
 
                     const model = buildModel(predictionData);
+
+                    const predictionSRData = getPredictionMeetData(data, season, {prevMeetId: meetId}, selectedAthlete.gender, false);
+                    const timeOnCourse = getAthleteTime(selectedAthlete, currentSeason, currentMeetId);
+
+                    const srModel = buildModel(predictionSRData);
                     if(model.points.length === 0) {
                         setCardData({});
                     } else {
                         setCardData({
                             model: model,
                             avgTime: avgTime,
-                            meetDateCurr: meetDateCurr
+                            meetDateCurr: meetDateCurr,
+                            srModel: srModel,
+                            timeOnCourse: timeOnCourse,
                         });
                     }
 
@@ -84,7 +91,7 @@ function PerformanceCard(props) {
     return (
         <Box m={2} mx="auto" p={4} backgroundColor="gray.100" rounded="md" boxShadow="md" maxWidth="75%" opacity={(isLoading ? "0.5" : "1")}>
             <Flex justifyContent="space-between">
-                <Text fontSize="xl">{selectedAthlete.results.find((res) => res.season == season).meets[predIndex].meetName}</Text>
+                <Text fontSize="xl" noOfLines={1} maxW="50%">{selectedAthlete.results.find((res) => res.season == season).meets[predIndex].meetName}</Text>
                 <Text fontSize="xl">{(new Date(selectedAthlete.results.find((res) => res.season == season).meets[predIndex].date).toDateString())}</Text>
             </Flex>
             {
@@ -97,9 +104,12 @@ function PerformanceCard(props) {
                         <Box>
                             <Text fontSize="3xl" my={2} textAlign="center" color={(calculateData().difference > 10 ? "red.400" : "green.400")}>{`${(calculateData().difference > 0) ? "+" : ""}${calculateData().difference.toFixed(1)}s`}</Text>
                             <Text>{selectedAthlete.name} ran {Math.abs(calculateData().difference).toFixed(1)} seconds {calculateData().difference > 0 ? "slower" : "faster"} ({secondsToReadable(calculateData().actual)}) than they were predicted to ({secondsToReadable(calculateData().predicted)})</Text>
+                            <br />
+                            <Text>{selectedAthlete.name}'s predicted SR is</Text>
+                            <Text fontSize="3xl" my={2} textAlign="center">{secondsToReadable(cardData.srModel.predict(cardData.timeOnCourse)[1])}</Text>
                         </Box>
                     ) : (
-                        <Text>No prediction data could be found :(</Text>
+                        <Text textAlign="center" color="red.400">No prediction data could be found</Text>
                     )}
                     </>)
             }

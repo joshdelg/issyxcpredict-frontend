@@ -5,14 +5,16 @@ import PerformanceCard from "./PerformanceCard";
 
 function AthletePerformance(props) {
 
-    const { selectedAthlete, season } = props;
+    const { selectedAthlete, season, predIndex, setPredIndex } = props;
 
-    const [predIndex, setPredIndex] = useState(0);
+    
     
     return (
         <Box m={4} p={4} border="1px" borderRadius="md" borderColor="gray.200">
-            <Heading size="lg">{selectedAthlete.name}'s Performance</Heading>
-            <Heading size="md">Predicted vs. Actual Performance on Meets</Heading>
+            <Box my={4}>
+                <Heading size="lg">{selectedAthlete.name}'s Performance</Heading>
+                <Heading size="md">Predicted vs. Actual Performance on Meets</Heading>
+            </Box>
             <Flex width="100%" justifyContent="center">
                 <Flex direction="row" alignItems="center" justifyContent="center" width="75%">
                     <IconButton icon={<ArrowBackIcon />} onClick={() => setPredIndex(predIndex - 1)} isDisabled={predIndex == 0} />
@@ -22,7 +24,6 @@ function AthletePerformance(props) {
                     <IconButton icon={<ArrowForwardIcon />} onClick={() => setPredIndex(predIndex + 1)} isDisabled={predIndex == selectedAthlete.results.find((s) => s.season == season).meets.length - 1} />
                 </Flex>
             </Flex>
-            <Heading size="md">Predicted SR Based on Meets</Heading>
         </Box>
     );
 }

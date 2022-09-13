@@ -71,14 +71,15 @@ export function getPredictionMeetData(prevMeetAthletes, prevMeetSeason, prevMeet
     let predictionData = [];
     // console.log(prevMeetAthletes, prevMeetSeason, prevMeetIds.prevMeetId, restrictToRace);
     prevMeetAthletes.forEach((athlete) => {
-        // console.log("Getting data for athlete [", athlete, "]");
-        const courseEntry = athlete.results.find((s) => s.season === prevMeetSeason).meets.find((res) => res.meetId === prevMeetIds.prevMeetId);
+        console.log("Getting data for athlete [", athlete, "]");
+        console.log("Using season", prevMeetSeason, "and Id", prevMeetIds);
+        const courseEntry = athlete.results.find((s) => s.season == prevMeetSeason).meets.find((res) => res.meetId == prevMeetIds.prevMeetId);
         const timeOnCourse = courseEntry.time;
         // console.log("Time on course is:", secondsToReadable(timeOnCourse));
         const sr = getAthleteSR(athlete, prevMeetSeason);
         // console.log("Athlete SR is:", secondsToReadable(sr));
 
-        if(athlete.gender === gender && (restrictToRace ? courseEntry.raceId === prevMeetIds.prevRaceId : true) && timeOnCourse && sr && timeOnCourse !== Infinity && sr !== Infinity) {
+        if(athlete.gender === gender && (restrictToRace ? courseEntry.raceId == prevMeetIds.prevRaceId : true) && timeOnCourse && sr && timeOnCourse !== Infinity && sr !== Infinity) {
             predictionData.push([timeOnCourse, sr]);
             // console.log("Appended this athlete to the prediction data!");
         }

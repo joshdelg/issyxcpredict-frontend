@@ -11,7 +11,9 @@ function Dashboard() {
     const [gender, setGender] = useState("M");
     const [schoolAthletes, setSchoolAthletes] = useState();
     const [season, setSeason] = useState(2021);
-    const [selectedAthlete, setSelectedAthlete] = useState({athleteId: "team"});
+    const [selectedAthlete, setSelectedAthlete] = useState({});
+
+    const [predIndex, setPredIndex] = useState(0);
 
     const getSchoolAthletes = () => {
         fetch(config.apiUrl + '/getSchoolAthletes', {
@@ -25,6 +27,7 @@ function Dashboard() {
             })
         }).then((res) => res.json()).then((data) => {
             setSchoolAthletes(data);
+            console.log(config.apiUrl);
         });
     }
 
@@ -37,12 +40,14 @@ function Dashboard() {
             <Grid gridTemplateColumns="1fr 5fr" gridTemplateRows="repeat(1, 1fr)">
                 <GridItem>
                     <Box borderRight="1px" borderColor="gray.200" textAlign="center">
-                        <Box onClick={() => setSelectedAthlete({athleteId: "team"})} background={(selectedAthlete.athleteId == "team") ? "gray.200" : ""} _hover={{background: "gray.100"}} p={2}>Team View</Box>
+                        <>
+                        {/* <Box onClick={() => setSelectedAthlete({athleteId: "team"})} background={(selectedAthlete.athleteId == "team") ? "gray.200" : ""} _hover={{background: "gray.100"}} p={2}>Team View</Box> */}
                         {schoolAthletes && (
                             schoolAthletes.filter((a) => a.gender === gender && a.pr5k !== 0).sort((a, b) => a.pr5k - b.pr5k).map((a) => (
-                                <Box key={a.athleteId} onClick={() => setSelectedAthlete(a)} background={(selectedAthlete.athleteId == a.athleteId) ? "gray.200" : ""} _hover={{background: "gray.100"}} transition="background 0.25s" p={2}>{a.name}</Box>
+                                <Box key={a.athleteId} onClick={() => {setSelectedAthlete(a); setPredIndex(0)}} background={(selectedAthlete.athleteId == a.athleteId) ? "gray.200" : ""} _hover={{background: "gray.100"}} transition="background 0.25s" p={2}>{a.name}</Box>
                             ))
                         )}
+                        </>
                     </Box>
                 </GridItem>
                 <GridItem p={2}>
@@ -55,22 +60,13 @@ function Dashboard() {
                         </Flex>
                     </Flex>
                     {
-                        selectedAthlete.athleteId !== "team" ? (
+                        selectedAthlete.athleteId && (
                             <>
-                                <AthleteProgression selectedAthlete={selectedAthlete} season={season}/>
-                                <AthletePerformance selectedAthlete={selectedAthlete} season={season}/>
+                                <AthleteProgression selectedAthlete={selectedAthlete} season={season} predIndex={predIndex} setPredIndex={setPredIndex} />
+                                <AthletePerformance selectedAthlete={selectedAthlete} season={season} predIndex={predIndex} setPredIndex={setPredIndex}/>
                             </>
-                        ) : (
-                        <>
-                            <Box>
-                                <Text>Your Team Rank: 2</Text>
-                            </Box>
-                            <Box>Ranking Progression</Box>
-                            <Box>Team Progression</Box>
-                            <Box>Meets</Box>
-                        </>
                         )
-                    }
+                    } 
                 </GridItem>
             </Grid>
         </Box>

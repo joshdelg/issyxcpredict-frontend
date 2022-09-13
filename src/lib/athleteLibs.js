@@ -40,6 +40,7 @@ export function getAthleteGrade(athlete, season) {
 }
 
 export function getProgressionChartData(athlete, season, distance="5000 Meters") {
+    console.log(athlete);
     const meets = athlete.results.find((s) => s.season == season).meets.filter((res) => res.distance === distance);
     return meets.map((res) => ({name: res.meetName, time: (res.time) ? res.time : null}));
 }
