@@ -7,6 +7,7 @@ import { buildModel } from "../lib/regressionLibs";
 import AthleteCard from "./AthleteCard";
 import CourseCard from "./CourseCard";
 import PredictionCard from "./PredictionCard";
+import config from "../config";
 
 function AvgToRace(props) {
 
@@ -45,7 +46,7 @@ function AvgToRace(props) {
             setIsLoading(true);
             // Rip schoolId and request query dabase 
             const schoolId = schoolUrl.match(/[0-9]+/g)[0];
-            fetch('/getSchoolAthletes', {
+            fetch(config.apiUrl + '/getSchoolAthletes', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -67,7 +68,7 @@ function AvgToRace(props) {
             setIsLoading(true);
             const [meetId, raceId] = meetUrl.match(/[0-9]+/g);
             setMeetIds({ meetId: meetId, raceId: raceId });
-            fetch('/getMeetAthletes', {
+            fetch(config.apiUrl + '/getMeetAthletes', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"

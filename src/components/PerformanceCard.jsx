@@ -7,6 +7,7 @@ import prevMeetIds from "../lib/prevMeetIds";
 import { buildModel } from "../lib/regressionLibs";
 import { secondsToReadable } from "../lib/timeLibs";
 import { PhoneIcon } from "@chakra-ui/icons";
+import config from "../config";
 
 function PerformanceCard(props) {
     const { predIndex, selectedAthlete, season } = props;
@@ -19,7 +20,7 @@ function PerformanceCard(props) {
         console.log("Generating prediction")
         if(prevMeetIds[currentSeason][currentMeetId]) {
             const meetId = prevMeetIds[currentSeason][currentMeetId];
-            fetch('/getMeetAthletes', {
+            fetch(config.apiUrl + '/getMeetAthletes', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"

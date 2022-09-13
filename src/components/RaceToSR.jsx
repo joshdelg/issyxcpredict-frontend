@@ -4,6 +4,7 @@ import { secondsToReadable } from "../lib/timeLibs";
 import { getMeetData, getPredictionData, getPredictionMeetData } from "../lib/meetLibs";
 import { buildModel } from "../lib/regressionLibs";
 import AthleteCard from "./AthleteCard";
+import config from "../config";
 
 function RaceToSR(props) {  
 
@@ -49,7 +50,7 @@ function RaceToSR(props) {
             const [meetId, raceId] = meetUrl.match(/[0-9]+/g);
             setMeetIds({meetId: meetId, raceId: raceId});
 
-            fetch('/getMeetAthletes', {
+            fetch(config.apiUrl + '/getMeetAthletes', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -81,7 +82,7 @@ function RaceToSR(props) {
             const [prevMeetId, prevRaceId] = prevMeetUrl.match(/[0-9]+/g);
             setPrevMeetIds({prevMeetId: prevMeetId, prevRaceId: prevRaceId});
 
-            fetch('/getMeetAthletes', {
+            fetch(config.apiUrl + '/getMeetAthletes', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"

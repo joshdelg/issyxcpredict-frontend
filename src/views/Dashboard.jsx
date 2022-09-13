@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import AthletePerformance from "../components/AthletePerformance";
 import AthleteProgression from "../components/AthleteProgression";
+import config from "../config";
 
 function Dashboard() {
 
@@ -13,7 +14,7 @@ function Dashboard() {
     const [selectedAthlete, setSelectedAthlete] = useState({athleteId: "team"});
 
     const getSchoolAthletes = () => {
-        fetch('/getSchoolAthletes', {
+        fetch(config.apiUrl + '/getSchoolAthletes', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

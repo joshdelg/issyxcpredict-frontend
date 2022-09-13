@@ -1,5 +1,6 @@
 import { Box, Checkbox, Flex, FormControl, FormHelperText, FormLabel, Input, Text, Button } from "@chakra-ui/react";
 import { useState } from "react";
+import config from "../config";
 
 function Scrape(props) {
 
@@ -19,7 +20,7 @@ function Scrape(props) {
                 let response;
                 
                 if(includeAllRaces) {
-                    response = await fetch('/scrapeMeetAthletes', {
+                    response = await fetch(config.apiUrl + '/scrapeMeetAthletes', {
                         method: 'POST',
                         headers: {
                             "Content-Type": "application/json"
@@ -31,7 +32,7 @@ function Scrape(props) {
                     });
 
                 } else {
-                    response = await fetch('/scrapeRaceAthletes', {
+                    response = await fetch(config.apiUrl + '/scrapeRaceAthletes', {
                         method: 'POST',
                         headers: {
                             "Content-Type": "application/json"
