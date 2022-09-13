@@ -1,3 +1,3 @@
 export default {
-    apiUrl: (process.env.IS_PROD) == "TRUE" ? 'https://issyxcpredict-backend.herokuapp.com' : ""
+    apiUrl: (process.env.NODE_ENV) == "production" ? 'https://issyxcpredict-backend.herokuapp.com' : ""
 }
