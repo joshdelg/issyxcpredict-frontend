@@ -121,9 +121,9 @@ function AvgToRace(props) {
     return (
         <Grid templateColumns="repeat(2, 1fr)" templateRows="repeat(2, 1fr)">
             <GridItem m={2} p={4} border="1px" borderRadius="md" borderColor="gray.200">
-                <Text fontSize="xl">Athlete Information</Text>
+                <Text fontSize="xl" mb={2}>Athlete Information</Text>
                 <Box>
-                    <FormControl>
+                    <FormControl mb={2}>
                         <FormLabel>Paste school link</FormLabel>
                         <Input type='text' placeholder="https://www.athletic.net/team/408/cross-country/2021" value={schoolUrl} onChange={(e) => setSchoolUrl(e.target.value)} />
                     </FormControl>
@@ -139,7 +139,7 @@ function AvgToRace(props) {
                     </FormControl>
                     {
                         schoolAthletes.length > 0 && (
-                            <FormControl>
+                            <FormControl mb={2}>
                                 <FormLabel>Select athlete to predict</FormLabel>
                                 <Select placeholder='Select an athlete' value={selectedAthlete.athleteId} onChange={(e) => onChangeSelectedAthlete(e)}>
                                     {
@@ -154,13 +154,13 @@ function AvgToRace(props) {
                 </Box>
             </GridItem>
             <GridItem m={2} p={4} border="1px" borderRadius="md" borderColor="gray.200">
-                <Text fontSize="xl">Course Information</Text>
+                <Text fontSize="xl" mb={2}>Course Information</Text>
                 <Box>
-                    <FormControl>
+                    <FormControl mb={2}>
                         <FormLabel>Paste link from last year's meet</FormLabel>
                         <Input type='text' placeholder='https://www.athletic.net/CrossCountry/meet/156439/results/652131' value={meetUrl} onChange={(e) => setMeetUrl(e.target.value)} />
                     </FormControl>
-                    <FormControl>
+                    <FormControl mb={2}>
                         <FormLabel>Choose a prediction method</FormLabel>
                         <RadioGroup value={predictionMethod} onChange={setPredictionMethod}>
                             <Stack direction="row">
@@ -186,7 +186,7 @@ function AvgToRace(props) {
                     <GridItem m={2} p={4} border="1px" borderRadius="md" borderColor="gray.200" gridColumn="1 / span 2">
                         {
                             predictionModel && (
-                                <PredictionCard selectedAthlete={selectedAthlete} meetIds={meetIds} meetData={meetData} predictionModel={predictionModel} getPrediction={getPrediction} />             
+                                <PredictionCard selectedAthlete={selectedAthlete} meetData={meetData} predictionModel={predictionModel} getPrediction={getPrediction} predictionType="avg2race" />             
                             )
                         }
                         <Flex mt={4} justifyContent="center" alignItems="center">

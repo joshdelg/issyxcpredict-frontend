@@ -1,4 +1,4 @@
-import { Heading, Text, Box, Grid, GridItem, UnorderedList, ListItem, List, Stack, Flex, Switch } from "@chakra-ui/react";
+import { Heading, Text, Box, Grid, GridItem, UnorderedList, ListItem, List, Stack, Flex, Switch, Select } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
 import AthletePerformance from "../components/AthletePerformance";
@@ -15,7 +15,10 @@ function Dashboard() {
 
     const [predIndex, setPredIndex] = useState(0);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const getSchoolAthletes = () => {
+        setIsLoading(true);
         fetch(config.apiUrl + '/getSchoolAthletes', {
             method: 'POST',
             headers: {
@@ -27,13 +30,13 @@ function Dashboard() {
             })
         }).then((res) => res.json()).then((data) => {
             setSchoolAthletes(data);
-            console.log(config.apiUrl);
+            setIsLoading(false);
         });
     }
 
     useEffect(() => {
         getSchoolAthletes();
-    }, []);
+    }, [season]);
 
     return (
         <Box>
@@ -44,7 +47,7 @@ function Dashboard() {
                         {/* <Box onClick={() => setSelectedAthlete({athleteId: "team"})} background={(selectedAthlete.athleteId == "team") ? "gray.200" : ""} _hover={{background: "gray.100"}} p={2}>Team View</Box> */}
                         {schoolAthletes && (
                             schoolAthletes.filter((a) => a.gender === gender && a.pr5k !== 0).sort((a, b) => a.pr5k - b.pr5k).map((a) => (
-                                <Box key={a.athleteId} onClick={() => {setSelectedAthlete(a); setPredIndex(0)}} background={(selectedAthlete.athleteId == a.athleteId) ? "gray.200" : ""} _hover={{background: "gray.100"}} transition="background 0.25s" p={2}>{a.name}</Box>
+                                <Box opacity={(isLoading) ? "50%" : "100%"} key={a.athleteId} onClick={() => {setSelectedAthlete(a); setPredIndex(0)}} background={(selectedAthlete.athleteId == a.athleteId) ? "gray.200" : ""} _hover={{background: "gray.100"}} transition="background 0.25s" p={2}>{a.name}</Box>
                             ))
                         )}
                         </>
@@ -57,6 +60,11 @@ function Dashboard() {
                             <Text>Men's</Text>
                             <Switch mx={2} isChecked={gender !== "M"} onChange={(e) => {setGender((gender === "M") ? "F" : "M"); setSelectedAthlete({athleteId: "team"})}}/>
                             <Text>Women's</Text>
+                            <Text ml={4} mr={2}>Season</Text>
+                            <Select placeholder="Select a season" value={season} onChange={(e) => {setSeason(e.target.value); setSelectedAthlete({});}}>
+                                <option value={2021}>2021</option>
+                                <option value={2022}>2022</option>
+                            </Select>
                         </Flex>
                     </Flex>
                     {

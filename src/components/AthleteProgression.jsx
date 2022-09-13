@@ -11,7 +11,7 @@ function AthleteProgression(props) {
 
     const CustomDot = (props) => {
         return (
-            props.index == predIndex - diff ? <Dot {...props} strokeWidth={3} stroke='#D69E2E' fill="#D69E2E" /> : <Dot {...props}/>
+            props.index == predIndex - diff ? <Dot {...props} strokeWidth={5} stroke='#D69E2E' fill="#D69E2E"/> : <Dot {...props}/>
         )
     }
 

@@ -1,4 +1,4 @@
-import { Box, Checkbox, Flex, FormControl, FormHelperText, FormLabel, Input, Text, Button } from "@chakra-ui/react";
+import { Box, Checkbox, Flex, FormControl, FormHelperText, FormLabel, Input, Text, Button, Heading } from "@chakra-ui/react";
 import { useState } from "react";
 import config from "../config";
 
@@ -55,7 +55,7 @@ function Scrape(props) {
 
     return (
         <Box p={12}>
-            <Text fontSize="2xl">Scrape new data</Text>
+            <Heading fontSize="2xl">Scrape new data</Heading>
             <Box m={2} p={4} border="1px" borderRadius="md" borderColor="gray.200">
                 <FormControl mb={2}>
                     <FormLabel>Paste link from race to add to database</FormLabel>

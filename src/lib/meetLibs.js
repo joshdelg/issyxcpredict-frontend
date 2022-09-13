@@ -5,13 +5,16 @@ export function getMeetData(meetAthletes, meetId, meetSeason) {
     let srsSet = 0;
     let validAthletes = 0;
 
+    const meetRes = meetAthletes[0].results.find((s) => s.season == meetSeason).meets.find((res) => res.meetId == meetId);
+
     meetAthletes.forEach((athlete) => {
-        // Find all 5k results from that season
-        const season5kResults = athlete.results.find((s) => s.season == meetSeason).meets.filter((res) => res.distance == "5000 Meters");
+
+        // Find all results from that season of same distance
+        const seasonResults = athlete.results.find((s) => s.season == meetSeason).meets.filter((res) => res.distance == meetRes.distance);
         let minTime = 99999;
         
-        // Iterate over 5k results (including those that have a 0 time)
-        for(const res of season5kResults) {
+        // Iterate over results of distance (including those that have a 0 time)
+        for(const res of seasonResults) {
             if(res.meetId === meetId) {
                 if(res.time !== 0) {
                     validAthletes++;
@@ -26,7 +29,7 @@ export function getMeetData(meetAthletes, meetId, meetSeason) {
 
     const srPercent = srsSet / validAthletes;
 
-    const meetRes = meetAthletes[0].results.find((s) => s.season == meetSeason).meets.find((res) => res.meetId == meetId);
+    
 
     return {srsSet, srPercent, validAthletes, name: meetRes.meetName, distance: meetRes.distance, date: meetRes.date, season: meetSeason, meetId: meetId};
 }

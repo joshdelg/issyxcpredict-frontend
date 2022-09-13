@@ -9,14 +9,15 @@ function CourseCard(props) {
         <Flex alignItems="center" height="100%">
             <Box flex="1" m={2} p={4} backgroundColor="gray.100" rounded="md" boxShadow="md">
                 <Flex direction="row" justifyContent="space-between" alignItems="center">
-                    <Text fontSize="2xl">{meetData.name}<Badge ml={2} variant="subtle" colorScheme="green">{(new Date(meetData.date)).toDateString()}</Badge></Text>
+                    <Text fontSize="2xl">{meetData.name}<Badge ml={2} variant="subtle" colorScheme="green">{meetData.distance}</Badge></Text>
+                    <Text fontSize='2xl'>{(new Date(meetData.date)).toDateString()}</Text>
                 </Flex>
                 <Text fontSize="lg">{meetAthletes.length} athletes</Text>
                 <Text fontSize="lg">{meetData.validAthletes} valid times</Text>
                 <Text fontSize="lg">{meetData.srsSet} SRs set</Text>
                 <Text fontSize="lg">{Math.round(meetData.srPercent * 100)}% of athletes set an SR</Text>
                 <Flex justifyContent="end">
-                    <Button variant="filled" size="sm" backgroundColor="teal">See athlete page</Button>
+                    <Button variant="filled" size="sm" backgroundColor="teal">See meet page</Button>
                 </Flex>
             </Box>
         </Flex>

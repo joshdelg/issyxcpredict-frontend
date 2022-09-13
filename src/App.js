@@ -8,7 +8,7 @@ function App() {
         <Heading fontSize="3xl" letterSpacing={2}>IssyXC Predict</Heading>
         <Flex>
           <Text fontSize="xl" mr={4} _hover={{color: "yellow.500"}} transition="color 0.25s">
-            <Link to="/home">Home</Link>
+            <Link to="/">Home</Link>
           </Text>
           <Text fontSize="xl" mr={4} _hover={{color: "yellow.500"}} transition="color 0.25s">
             <Link to="/predict">Predict</Link>
