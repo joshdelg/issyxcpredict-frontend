@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, FormControl, FormLabel, Text, Box, Input, Grid, GridItem, Select, Stack, RadioGroup, Radio, Button, Flex } from "@chakra-ui/react";
+import { Container, FormControl, FormLabel, Text, Box, Input, Grid, GridItem, Select, Stack, RadioGroup, Radio, Button, Flex, FormHelperText } from "@chakra-ui/react";
 import { secondsToReadable } from "../lib/timeLibs";
 import { getAthleteAverageTime, getAthleteSR } from "../lib/athleteLibs";
 import { getPredictionData, getMeetData } from "../lib/meetLibs";
@@ -126,6 +126,7 @@ function AvgToRace(props) {
                     <FormControl mb={2}>
                         <FormLabel>Paste school link</FormLabel>
                         <Input type='text' placeholder="https://www.athletic.net/team/408/cross-country/2021" value={schoolUrl} onChange={(e) => setSchoolUrl(e.target.value)} />
+                        <FormHelperText>You will choose an athlete from this school to make predictions for</FormHelperText>
                     </FormControl>
                     <FormControl>
                         <FormLabel>Choose a season</FormLabel>

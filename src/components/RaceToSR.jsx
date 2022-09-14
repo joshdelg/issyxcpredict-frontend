@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, Grid, GridItem, Box, FormControl, FormLabel, Input, Select, Button, Stack, Checkbox, Flex } from "@chakra-ui/react";
+import { Text, Grid, GridItem, Box, FormControl, FormLabel, Input, Select, Button, Stack, Checkbox, Flex, FormHelperText } from "@chakra-ui/react";
 import { secondsToReadable } from "../lib/timeLibs";
 import { getMeetData, getPredictionData, getPredictionMeetData } from "../lib/meetLibs";
 import { buildModel } from "../lib/regressionLibs";
@@ -134,7 +134,8 @@ function RaceToSR(props) {
                 <Box>
                     <FormControl mb={2}>
                         <FormLabel>Paste link from this year's race</FormLabel>
-                        <Input type='text' placeholder="https://anetdfadsfae ra" value={meetUrl} onChange={(e) => setMeetUrl(e.target.value)} />
+                        <Input type='text' placeholder="https://www.athletic.net/CrossCountry/meet/208604/results/850206" value={meetUrl} onChange={(e) => setMeetUrl(e.target.value)} />
+                        <FormHelperText>Paste link to results page for a single race</FormHelperText>
                     </FormControl>
                     <FormControl mb={2}>
                         <FormLabel>Choose athlete from that race</FormLabel>
@@ -153,7 +154,8 @@ function RaceToSR(props) {
                 <Box>
                     <FormControl mb={2}>
                         <FormLabel>Paste link from last year's meet</FormLabel>
-                        <Input type='text' placeholder="https://anetsadf a" value={prevMeetUrl} onChange={(e) => setPrevMeetUrl(e.target.value)} />
+                        <Input type='text' placeholder="https://www.athletic.net/CrossCountry/meet/193234/results/791845" value={prevMeetUrl} onChange={(e) => setPrevMeetUrl(e.target.value)} />
+                        <FormHelperText>Paste link to results page for a single race, data will be used from the whole meet unless "Restrict to Race" is checked</FormHelperText>
                     </FormControl>
                 </Box>
             </GridItem>
