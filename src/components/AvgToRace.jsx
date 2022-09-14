@@ -112,7 +112,7 @@ function AvgToRace(props) {
         let newDate = new Date(meetDate);
         newDate.setFullYear(season);
         console.log(newDate.valueOf());
-        const avgTime = getAthleteAverageTime(selectedAthlete, season, newDate.valueOf());
+        const avgTime = getAthleteAverageTime(selectedAthlete, season, meetData.distance, newDate.valueOf());
         console.log(secondsToReadable(avgTime));
         const prediction = predictionModel.predict(avgTime);
         return prediction[1];

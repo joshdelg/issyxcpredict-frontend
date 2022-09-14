@@ -6,7 +6,19 @@ import { secondsToReadable } from "../lib/timeLibs";
 function AthleteProgression(props) {
     const { selectedAthlete, season, predIndex, setPredIndex } = props;
     
-    const data = getProgressionChartData(selectedAthlete, season);
+    let distances = {};
+
+    selectedAthlete.results.find((s) => s.season == season).meets.forEach((meet) => {
+        if(distances[meet.distance]) {
+            distances[meet.distance] += 1
+        } else {
+            distances[meet.distance] = 1;
+        }
+    })
+
+    const distance = Object.entries(distances).sort((e1, e2) => e2[1] - e1[1])[0][0];
+
+    const data = getProgressionChartData(selectedAthlete, season, distance);
     const diff = selectedAthlete.results.find((s) => s.season == season).meets.length - data.length;
 
     const CustomDot = (props) => {

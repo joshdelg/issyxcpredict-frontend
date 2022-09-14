@@ -41,10 +41,12 @@ const computeMedian = (arr) => {
 export function getPredictionData(meetAthletes, season, meetId, meetDate, predictionMethod) {
 
     let predictionData = [];
+    const meetRes = meetAthletes[0].results.find((s) => s.season == season).meets.find((res) => res.meetId == meetId);
+
     meetAthletes.forEach((athlete) => {
         try {
-            let xStatistic = (predictionMethod === "avg") ? getAthleteAverageTime(athlete, season, meetDate) : getAthleteSR(athlete, season, meetDate);
-            const timeOnCourse = athlete.results.find((s) => s.season == season).meets.find((res) => res.meetId == meetId && res.distance == "5000 Meters").time;
+            let xStatistic = (predictionMethod === "avg") ? getAthleteAverageTime(athlete, season, meetRes.distance, meetDate) : getAthleteSR(athlete, season, meetDate);
+            const timeOnCourse = athlete.results.find((s) => s.season == season).meets.find((res) => res.meetId == meetId && res.distance == meetRes.distance).time;
             // console.log(athlete.name, ":", xStatistic, timeOnCourse);
 
             if(xStatistic && timeOnCourse && xStatistic !== Infinity && timeOnCourse !== Infinity) predictionData.push([xStatistic, timeOnCourse]);
@@ -73,9 +75,10 @@ export function getPredictionData(meetAthletes, season, meetId, meetDate, predic
 export function getPredictionMeetData(prevMeetAthletes, prevMeetSeason, prevMeetIds, gender, restrictToRace) {
     let predictionData = [];
     // console.log(prevMeetAthletes, prevMeetSeason, prevMeetIds.prevMeetId, restrictToRace);
+    const meetRes = prevMeetAthletes[0].results.find((s) => s.season == prevMeetSeason).meets.find((res) => res.meetId == prevMeetIds.prevMeetId);
     prevMeetAthletes.forEach((athlete) => {
-        console.log("Getting data for athlete [", athlete, "]");
-        console.log("Using season", prevMeetSeason, "and Id", prevMeetIds);
+        // console.log("Getting data for athlete [", athlete, "]");
+        // console.log("Using season", prevMeetSeason, "and Id", prevMeetIds);
         const courseEntry = athlete.results.find((s) => s.season == prevMeetSeason).meets.find((res) => res.meetId == prevMeetIds.prevMeetId);
         const timeOnCourse = courseEntry.time;
         // console.log("Time on course is:", secondsToReadable(timeOnCourse));

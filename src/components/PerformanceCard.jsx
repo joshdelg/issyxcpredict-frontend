@@ -31,22 +31,25 @@ function PerformanceCard(props) {
                 }).then((res) => res.json()).then((data) => {
                     let season;
                     let meetDate;
+                    let distance;
                     data[0].results.every((s) => {
                         const race = s.meets.find((m) => m.meetId == meetId);
                         if (race) {
                             season = s.season;
                             meetDate = (new Date(race.date)).valueOf();
+                            distance = race.distance;
                             return false;
                         }
                         return true;
                     });
                     const predictionData = getPredictionData(data, season, meetId, meetDate, "avg");
+                    console.log(predictionData);
 
                     const meetDateCurr = new Date(meetDate);
                     meetDateCurr.setFullYear(currentSeason);
-                    const avgTime = getAthleteAverageTime(selectedAthlete, currentSeason, meetDateCurr.valueOf());
-                    // console.log(meetDateCurr.toDateString());
-                    // console.log("avg time used for prediction is: ", avgTime);
+                    const avgTime = getAthleteAverageTime(selectedAthlete, currentSeason, distance, meetDateCurr.valueOf());
+                    console.log(meetDateCurr.toDateString());
+                    console.log("avg time used for prediction is: ", secondsToReadable(avgTime));
 
                     const model = buildModel(predictionData);
 
@@ -54,17 +57,13 @@ function PerformanceCard(props) {
                     const timeOnCourse = getAthleteTime(selectedAthlete, currentSeason, currentMeetId);
 
                     const srModel = buildModel(predictionSRData);
-                    if(model.points.length === 0) {
-                        setCardData({});
-                    } else {
-                        setCardData({
-                            model: model,
-                            avgTime: avgTime,
-                            meetDateCurr: meetDateCurr,
-                            srModel: srModel,
-                            timeOnCourse: timeOnCourse,
-                        });
-                    }
+                    setCardData({
+                        model: (model.points.length !== 0) ? model : null,
+                        avgTime: avgTime,
+                        meetDateCurr: meetDateCurr,
+                        srModel: (srModel.points.length !== 0) ? srModel : null,
+                        timeOnCourse: timeOnCourse
+                    });
 
                     setIsLoading(false);
                 })
@@ -88,32 +87,45 @@ function PerformanceCard(props) {
         generatePrediction(selectedAthlete.results.find((res) => res.season == season).meets[predIndex].meetId, season);
     }, [predIndex, selectedAthlete]);
 
+    const renderAvgPredictions = () => {
+        return (cardData.model && cardData.avgTime) ? (
+            <Box>
+                <Text fontSize="3xl" my={2} textAlign="center" color={(calculateData().difference > 10 ? "red.400" : "green.400")}>{`${(calculateData().difference > 0) ? "+" : ""}${calculateData().difference.toFixed(1)}s`}</Text>
+                <Text>{selectedAthlete.name} ran {Math.abs(calculateData().difference).toFixed(1)} seconds {calculateData().difference > 0 ? "slower" : "faster"} ({secondsToReadable(calculateData().actual)}) than they were predicted to ({secondsToReadable(calculateData().predicted)})</Text>
+            </Box>
+        ) : (
+            <Text>No time prediction data available</Text>
+        )
+    }
+
+    const renderSRPredictions = () => {
+        return (cardData.srModel && cardData.timeOnCourse) ? (
+            <Box>
+                <Text>{selectedAthlete.name}'s predicted SR is</Text>
+                <Text fontSize="3xl" my={2} textAlign="center">{secondsToReadable(cardData.srModel.predict(cardData.timeOnCourse)[1])}</Text>
+            </Box>
+        ) : (
+            <Text>No SR prediction data available</Text>
+        )
+    }
+
     return (
         <Box m={2} mx="auto" p={4} backgroundColor="gray.100" rounded="md" boxShadow="md" maxWidth="75%" opacity={(isLoading ? "0.5" : "1")}>
             <Flex justifyContent="space-between">
                 <Text fontSize="xl" noOfLines={1} maxW="50%">{selectedAthlete.results.find((res) => res.season == season).meets[predIndex].meetName}</Text>
                 <Text fontSize="xl">{(new Date(selectedAthlete.results.find((res) => res.season == season).meets[predIndex].date).toDateString())}</Text>
             </Flex>
-            {
-
-                (isLoading) ? (
-                    <Text>Loading...</Text>
-                ) : (
-                    <>
-                    {(cardData.model && calculateData().actual) ? (
-                        <Box>
-                            <Text fontSize="3xl" my={2} textAlign="center" color={(calculateData().difference > 10 ? "red.400" : "green.400")}>{`${(calculateData().difference > 0) ? "+" : ""}${calculateData().difference.toFixed(1)}s`}</Text>
-                            <Text>{selectedAthlete.name} ran {Math.abs(calculateData().difference).toFixed(1)} seconds {calculateData().difference > 0 ? "slower" : "faster"} ({secondsToReadable(calculateData().actual)}) than they were predicted to ({secondsToReadable(calculateData().predicted)})</Text>
+            <Box>
+                {
+                    (isLoading) ? <Text>Loading...</Text> : (
+                        <>
+                            {renderAvgPredictions()}
                             <br />
-                            <Text>{selectedAthlete.name}'s predicted SR is</Text>
-                            <Text fontSize="3xl" my={2} textAlign="center">{secondsToReadable(cardData.srModel.predict(cardData.timeOnCourse)[1])}</Text>
-                        </Box>
-                    ) : (
-                        <Text textAlign="center" color="red.400">No prediction data could be found</Text>
-                    )}
-                    </>)
-            }
-            
+                            {renderSRPredictions()}
+                        </>
+                    )
+                }
+            </Box>
         </Box>
     );
 }

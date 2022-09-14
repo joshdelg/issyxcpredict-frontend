@@ -58,7 +58,7 @@ function Dashboard() {
                         <Heading>Coach's Dashboard</Heading>
                         <Flex m={4} alignItems="center">
                             <Text>Men's</Text>
-                            <Switch mx={2} isChecked={gender !== "M"} onChange={(e) => {setGender((gender === "M") ? "F" : "M"); setSelectedAthlete({athleteId: "team"})}}/>
+                            <Switch mx={2} isChecked={gender !== "M"} onChange={(e) => {setGender((gender === "M") ? "F" : "M"); setSelectedAthlete({})}}/>
                             <Text>Women's</Text>
                             <Text ml={4} mr={2}>Season</Text>
                             <Select placeholder="Select a season" value={season} onChange={(e) => {setSeason(e.target.value); setSelectedAthlete({});}}>
