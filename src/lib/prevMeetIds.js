@@ -21,7 +21,7 @@ export default {
         208604: 193234, // Time trial
         208686: null, // Jamboree (Marymoor)
         208666: null, // Redmond, Issy @ Eastlake
-        213004: 195186, // Quad @ Saint Edwards
+        213004: 157258, // Quad @ Saint Edwards
         209258: 192880, // Issy @ Skyline
         206987: 191871, // King's Cross
         206753: 191855, // Portland XC

@@ -16,7 +16,7 @@ function AthleteProgression(props) {
         }
     })
 
-    const distance = Object.entries(distances).sort((e1, e2) => e2[1] - e1[1])[0][0];
+    const distance = (distances[["5000 Meters"]]) ? "5000 Meters" : Object.entries(distances).sort((e1, e2) => e2[1] - e1[1])[0][0];
 
     const data = getProgressionChartData(selectedAthlete, season, distance);
     const diff = selectedAthlete.results.find((s) => s.season == season).meets.length - data.length;

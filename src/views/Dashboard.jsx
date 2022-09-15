@@ -46,7 +46,7 @@ function Dashboard() {
                         <>
                         {/* <Box onClick={() => setSelectedAthlete({athleteId: "team"})} background={(selectedAthlete.athleteId == "team") ? "gray.200" : ""} _hover={{background: "gray.100"}} p={2}>Team View</Box> */}
                         {schoolAthletes && (
-                            schoolAthletes.filter((a) => a.gender === gender).sort((a, b) => a.pr5k - b.pr5k).map((a) => (
+                            schoolAthletes.filter((a) => a.gender === gender).sort((a, b) => (a.pr5k || 999999) - (b.pr5k || 999999)).map((a) => (
                                 <Box opacity={(isLoading) ? "50%" : "100%"} key={a.athleteId} onClick={() => {setSelectedAthlete(a); setPredIndex(0)}} background={(selectedAthlete.athleteId == a.athleteId) ? "gray.200" : ""} _hover={{background: "gray.100"}} transition="background 0.25s" p={2}>{a.name}</Box>
                             ))
                         )}

@@ -100,7 +100,7 @@ function Scrape(props) {
                                 <Input flex={3} type="text" placeholder="https://www.athletic.net/CrossCountry/meet/179877/results/775015" value={meetUrl} onChange={(e) => setMeetUrl(e.target.value)} />
                                 <Checkbox flex={1} ml={2} value={includeAllRaces} onChange={(e) => setIncludeAllRaces(!includeAllRaces)}>Include all races at meet?</Checkbox>
                             </Flex>
-                            <FormHelperText>Link to the results page for a single race, even if scraping from entire meet</FormHelperText>
+                            <FormHelperText>Link to the results page for a single race or entire meet</FormHelperText>
                         </FormControl>
                         <FormControl maxWidth="75%" mb={2}>
                             <FormLabel>Paste anettokens</FormLabel>

@@ -88,7 +88,7 @@ function PerformanceCard(props) {
     }, [predIndex, selectedAthlete]);
 
     const renderAvgPredictions = () => {
-        return (cardData.model && cardData.avgTime) ? (
+        return (cardData.model && cardData.avgTime && (cardData.avgTime !== cardData.timeOnCourse)) ? (
             <Box>
                 <Text fontSize="3xl" my={2} textAlign="center" color={(calculateData().difference > 10 ? "red.400" : "green.400")}>{`${(calculateData().difference > 0) ? "+" : ""}${calculateData().difference.toFixed(1)}s`}</Text>
                 <Text>{selectedAthlete.name} ran {Math.abs(calculateData().difference).toFixed(1)} seconds {calculateData().difference > 0 ? "slower" : "faster"} ({secondsToReadable(calculateData().actual)}) than they were predicted to ({secondsToReadable(calculateData().predicted)})</Text>
