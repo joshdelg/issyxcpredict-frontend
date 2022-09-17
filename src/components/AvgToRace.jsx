@@ -132,7 +132,7 @@ function AvgToRace(props) {
                         <FormLabel>Choose a season</FormLabel>
                         <Select placeholder='Select a season' value={season} onChange={(e) => setSeason(e.target.value)}>
                             {
-                                [2021, 2020, 2019, 2018].map((s) => (
+                                [2022, 2021, 2020, 2019, 2018].map((s) => (
                                     <option key={s} value={s}>{s}</option>
                                 ))
                             }
