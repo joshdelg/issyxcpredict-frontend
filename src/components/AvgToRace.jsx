@@ -144,7 +144,7 @@ function AvgToRace(props) {
                                 <FormLabel>Select athlete to predict</FormLabel>
                                 <Select placeholder='Select an athlete' value={selectedAthlete.athleteId} onChange={(e) => onChangeSelectedAthlete(e)}>
                                     {
-                                        schoolAthletes.map((athlete, index) => (
+                                        schoolAthletes.sort((a1, a2) => (a1.pr5k || 999999) - (a2.pr5k || 999999)).map((athlete, index) => (
                                             <option key={index} value={athlete.athleteId}>{athlete.name}</option>
                                         ))
                                     }
